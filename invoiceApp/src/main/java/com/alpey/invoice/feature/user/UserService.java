@@ -10,21 +10,25 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alpey.invoice.utils.convert.Convert;
+
 @Service
-public class UserService implements IUserService {
+public class UserService<T, K> implements IUserService {
 
 	@Autowired
 	UserRepository repo;
 	@Autowired
 	ModelMapper mapper;
+	@Autowired
+	Convert convert;
 
 	@Override
 	public UserDto create(UserDto dto) {
 		try {
-			User user = convertToEntity(dto);
+			User user = convert.toEntity(dto);
 			user = repo.save(user);
 			System.out.println("User saved!");
-			return convertToDto(user);
+			return convert.toDto(user);
 		} catch (EntityExistsException | NullPointerException | IllegalArgumentException e) {
 			e.printStackTrace();
 			return new UserDto();
@@ -34,10 +38,10 @@ public class UserService implements IUserService {
 	@Override
 	public UserDto update(UserDto dto) {
 		try {
-			User user = convertToEntity(dto);
+			User user = convert.toEntity(dto);
 			user = repo.save(user);
 			System.out.println("User updated!");
-			return convertToDto(user);
+			return convert.toDto(user);
 		} catch (EntityNotFoundException | NullPointerException | IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println("");
@@ -63,7 +67,7 @@ public class UserService implements IUserService {
 	public UserDto findByEmail(String email) {
 		try {
 			User user = repo.findByEmail(email);
-			return convertToDto(user);
+			return convert.toDto(user);
 		} catch (EntityNotFoundException | NullPointerException | IllegalArgumentException e) {
 			e.printStackTrace();
 			return new UserDto();
@@ -75,21 +79,9 @@ public class UserService implements IUserService {
 		List<UserDto> dtos = new ArrayList<>();
 		List<User> users = (List<User>) repo.findAll();
 		for (User user : users) {
-			dtos.add(convertToDto(user));
+			dtos.add(convert.toDto(user));
 		}
 		return dtos;
-	}
-
-	private User convertToEntity(UserDto dto) {
-		User user = new User();
-		mapper.map(dto, user);
-		return user;
-	}
-
-	private UserDto convertToDto(User user) {
-		UserDto dto = new UserDto();
-		mapper.map(user, dto);
-		return dto;
 	}
 
 }

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.alpey.invoice.feature.company.Company;
@@ -30,8 +29,7 @@ public class User {
 	private String email;
 	@Column(nullable = false)
 	private String password;
-	@OneToOne
-	@JoinColumn(name = "company_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "user")
 	@JsonIgnore
 	private Company company;
 //	@OneToMany(mappedBy = "user")
