@@ -12,4 +12,5 @@ public interface Convertable {
 
 	UserResponse toResponse(UserDto dto);
 
+
 }

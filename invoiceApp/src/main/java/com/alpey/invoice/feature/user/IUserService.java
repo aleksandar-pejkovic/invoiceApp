@@ -10,6 +10,8 @@ public interface IUserService {
 
 	String delete(String email);
 
+	UserDto findByUsername(String username);
+
 	UserDto findByEmail(String email);
 
 	List<UserDto> findAll();

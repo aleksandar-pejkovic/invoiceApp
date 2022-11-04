@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.alpey.invoice.utils.convert.Convert;
@@ -21,11 +22,14 @@ public class UserService<T, K> implements IUserService {
 	ModelMapper mapper;
 	@Autowired
 	Convert convert;
+	@Autowired
+	BCryptPasswordEncoder bCrypt;
 
 	@Override
 	public UserDto create(UserDto dto) {
 		try {
 			User user = convert.toEntity(dto);
+			user.setPassword(bCrypt.encode(user.getPassword()));
 			user = repo.save(user);
 			System.out.println("User saved!");
 			return convert.toDto(user);
@@ -60,6 +64,17 @@ public class UserService<T, K> implements IUserService {
 			e.printStackTrace();
 			System.out.println("Illegal input!");
 			return "Illegal input!";
+		}
+	}
+
+	@Override
+	public UserDto findByUsername(String username) {
+		try {
+			User user = repo.findByUsername(username);
+			return convert.toDto(user);
+		} catch (EntityNotFoundException | NullPointerException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return new UserDto();
 		}
 	}
 
