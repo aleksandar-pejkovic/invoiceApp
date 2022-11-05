@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,16 +13,14 @@ import org.springframework.stereotype.Service;
 import com.alpey.invoice.utils.convert.Convert;
 
 @Service
-public class UserService<T, K> implements IUserService {
+public class UserService implements IUserService {
 
 	@Autowired
-	UserRepository repo;
+	private UserRepository repo;
 	@Autowired
-	ModelMapper mapper;
+	private Convert convert;
 	@Autowired
-	Convert convert;
-	@Autowired
-	BCryptPasswordEncoder bCrypt;
+	private BCryptPasswordEncoder bCrypt;
 
 	@Override
 	public UserDto create(UserDto dto) {

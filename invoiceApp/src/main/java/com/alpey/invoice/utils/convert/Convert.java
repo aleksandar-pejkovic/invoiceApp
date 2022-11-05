@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.alpey.invoice.feature.user.User;
 import com.alpey.invoice.feature.user.UserDto;
+import com.alpey.invoice.feature.user.UserRequest;
 import com.alpey.invoice.feature.user.UserResponse;
 
 @Component
@@ -29,6 +30,13 @@ public class Convert implements Convertable {
 	public UserDto toDto(User user) {
 		UserDto dto = new UserDto();
 		mapper.map(user, dto);
+		return dto;
+	}
+
+	@Override
+	public UserDto toDto(UserRequest request) {
+		UserDto dto = new UserDto();
+		mapper.map(request, dto);
 		return dto;
 	}
 
