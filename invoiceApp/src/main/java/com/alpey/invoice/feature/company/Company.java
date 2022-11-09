@@ -1,6 +1,6 @@
 package com.alpey.invoice.feature.company;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.alpey.invoice.feature.customer.Customer;
 import com.alpey.invoice.feature.invoice.Invoice;
 import com.alpey.invoice.feature.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,6 +35,8 @@ public class Company {
 	@JsonIgnore
 	@JoinColumn(name = "user_id", unique = true)
 	private User user;
+	@Column(unique = true, nullable = false)
+	private String name;
 	private String address;
 	@Column(nullable = false)
 	private String city;
@@ -45,7 +48,9 @@ public class Company {
 	private String phone;
 	@OneToMany(mappedBy = "company")
 	@JsonIgnore
-	private List<Invoice> invoices;
-	
+	private Set<Invoice> invoices;
+	@OneToMany(mappedBy = "company")
+	@JsonIgnore
+	private Set<Customer> customers;
 
 }

@@ -34,9 +34,6 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	@JsonIgnore
 	private Company company;
-//	@OneToMany(mappedBy = "user")
-//	@JsonIgnore
-//	private List<Customer> customers;
 	private String role;
 
 }
