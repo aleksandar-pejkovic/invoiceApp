@@ -1,6 +1,4 @@
-package com.alpey.invoice.feature.user;
-
-import com.alpey.invoice.feature.company.CompanyRequest;
+package com.alpey.invoice.feature.company;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +9,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserRequest {
+public class CompanyDto {
 
 	private String username;
+	private String name;
+	private String address;
+	private String city;
+	private String pib;
+	private String mb;
+	private String phone;
 	private String email;
-	private String password;
-	private CompanyRequest companyRequest;
 
 }

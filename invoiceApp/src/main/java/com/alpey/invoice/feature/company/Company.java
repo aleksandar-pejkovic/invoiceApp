@@ -46,6 +46,8 @@ public class Company {
 	private String mb;
 	@Column(unique = true)
 	private String phone;
+	@Column(unique = true)
+	private String email;
 	@OneToMany(mappedBy = "company")
 	@JsonIgnore
 	private Set<Invoice> invoices;

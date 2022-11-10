@@ -1,5 +1,7 @@
 package com.alpey.invoice.feature.customer;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,8 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.alpey.invoice.feature.company.Company;
+import com.alpey.invoice.feature.invoice.Invoice;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -41,5 +45,20 @@ public class Customer {
 	@JoinColumn(name = "company_id")
 	@JsonIgnore
 	private Company company;
+	@OneToMany(mappedBy = "customer")
+	@JsonIgnore
+	private Set<Invoice> invoices;
+	private double debth;
+
+	public void calculateDebth() {
+		recalculateDebth();
+	}
+
+	private void recalculateDebth() {
+		this.debth = 0;
+		for (Invoice invoice : invoices) {
+			this.debth += invoice.getTotal();
+		}
+	}
 
 }

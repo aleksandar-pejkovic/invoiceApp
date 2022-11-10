@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.alpey.invoice.feature.company.CompanyRepository;
 import com.alpey.invoice.utils.convert.Convert;
 
 @Service
@@ -17,6 +18,8 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private UserRepository repo;
+	@Autowired
+	private CompanyRepository companyRepo;
 	@Autowired
 	private Convert convert;
 	@Autowired

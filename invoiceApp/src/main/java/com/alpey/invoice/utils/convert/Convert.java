@@ -4,6 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alpey.invoice.feature.company.Company;
+import com.alpey.invoice.feature.company.CompanyDto;
+import com.alpey.invoice.feature.company.CompanyRequest;
+import com.alpey.invoice.feature.company.CompanyResponse;
 import com.alpey.invoice.feature.user.User;
 import com.alpey.invoice.feature.user.UserDto;
 import com.alpey.invoice.feature.user.UserRequest;
@@ -16,7 +20,9 @@ public class Convert implements Convertable {
 	ModelMapper mapper;
 
 	/*
+	 * 
 	 * User features convert section
+	 * 
 	 */
 
 	@Override
@@ -48,8 +54,38 @@ public class Convert implements Convertable {
 	}
 
 	/*
+	 * 
 	 * Company features convert section
+	 * 
 	 */
+
+	@Override
+	public Company toEntity(CompanyDto dto) {
+		Company company = new Company();
+		mapper.map(dto, company);
+		return company;
+	}
+
+	@Override
+	public CompanyDto toDto(Company company) {
+		CompanyDto dto = new CompanyDto();
+		mapper.map(company, dto);
+		return dto;
+	}
+
+	@Override
+	public CompanyDto toDto(CompanyRequest request) {
+		CompanyDto dto = new CompanyDto();
+		mapper.map(request, dto);
+		return dto;
+	}
+
+	@Override
+	public CompanyResponse toResponse(CompanyDto dto) {
+		CompanyResponse response = new CompanyResponse();
+		mapper.map(dto, response);
+		return response;
+	}
 
 	/*
 	 * Invoice features convert section

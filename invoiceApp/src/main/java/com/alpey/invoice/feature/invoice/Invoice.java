@@ -43,5 +43,20 @@ public class Invoice {
 	@OneToMany(mappedBy = "invoice")
 //	@JsonIgnore
 	private List<Item> items;
+	private double tax;
+	private double total;
 
+	public void calculateTotalAndTax() {
+		recalculateTotalAndTax();
+	}
+
+	private void recalculateTotalAndTax() {
+		this.total = 0;
+		this.tax = 0;
+
+		for (Item item : items) {
+			this.total += item.getTotal();
+			this.tax += item.getTax();
+		}
+	}
 }
