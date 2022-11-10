@@ -6,11 +6,12 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.alpey.invoice.feature.company.CompanyRepository;
 import com.alpey.invoice.utils.convert.Convert;
 
 @Service
@@ -19,10 +20,10 @@ public class UserService implements IUserService {
 	@Autowired
 	private UserRepository repo;
 	@Autowired
-	private CompanyRepository companyRepo;
-	@Autowired
+	@Lazy
 	private Convert convert;
 	@Autowired
+	@Lazy
 	private BCryptPasswordEncoder bCrypt;
 
 	@Override
@@ -40,10 +41,18 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public UserDto update(UserDto dto) {
+	public UserDto update(UserDto dto, String username) {
 		try {
+			User storedUser = repo.findByUsername(username);
 			User user = convert.toEntity(dto);
-			user = repo.save(user);
+
+			BeanUtils.copyProperties(user, storedUser);
+
+			if (dto.getPassword() != null) {
+				storedUser.setPassword(bCrypt.encode(dto.getPassword()));
+			}
+
+			user = repo.save(storedUser);
 			System.out.println("User updated!");
 			return convert.toDto(user);
 		} catch (EntityNotFoundException | NullPointerException | IllegalArgumentException e) {
@@ -54,9 +63,9 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public String delete(String email) {
+	public String delete(String username) {
 		try {
-			User user = repo.findByEmail(email);
+			User user = repo.findByUsername(username);
 			repo.delete(user);
 			System.out.println("User deleted!");
 			return "User deleted!";

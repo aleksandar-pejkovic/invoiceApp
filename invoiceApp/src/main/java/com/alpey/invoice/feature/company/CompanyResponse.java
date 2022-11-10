@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class CompanyResponse {
 
+	private String username;
 	private String name;
 	private String address;
 	private String city;

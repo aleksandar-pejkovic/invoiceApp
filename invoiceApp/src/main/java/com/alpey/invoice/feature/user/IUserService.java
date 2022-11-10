@@ -6,9 +6,9 @@ public interface IUserService {
 
 	UserDto create(UserDto dto);
 
-	UserDto update(UserDto dto);
+	UserDto update(UserDto dto, String username);
 
-	String delete(String email);
+	String delete(String username);
 
 	UserDto findByUsername(String username);
 

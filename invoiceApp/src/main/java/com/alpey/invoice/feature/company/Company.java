@@ -33,7 +33,7 @@ public class Company {
 	private Long id;
 	@OneToOne
 	@JsonIgnore
-	@JoinColumn(name = "user_id", unique = true)
+	@JoinColumn(name = "user_id", unique = true, nullable = false)
 	private User user;
 	@Column(unique = true, nullable = false)
 	private String name;

@@ -2,6 +2,7 @@ package com.alpey.invoice.utils.convert;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.alpey.invoice.feature.company.Company;
@@ -14,6 +15,7 @@ import com.alpey.invoice.feature.user.UserRequest;
 import com.alpey.invoice.feature.user.UserResponse;
 
 @Component
+@Lazy
 public class Convert implements Convertable {
 
 	@Autowired
@@ -29,6 +31,8 @@ public class Convert implements Convertable {
 	public User toEntity(UserDto dto) {
 		User user = new User();
 		mapper.map(dto, user);
+		Company company = toEntity(dto.getCompanyDto());
+		user.setCompany(company);
 		return user;
 	}
 
@@ -36,6 +40,8 @@ public class Convert implements Convertable {
 	public UserDto toDto(User user) {
 		UserDto dto = new UserDto();
 		mapper.map(user, dto);
+		CompanyDto companyDto = toDto(user.getCompany());
+		dto.setCompanyDto(companyDto);
 		return dto;
 	}
 
@@ -43,6 +49,8 @@ public class Convert implements Convertable {
 	public UserDto toDto(UserRequest request) {
 		UserDto dto = new UserDto();
 		mapper.map(request, dto);
+		CompanyDto companyDto = toDto(request.getCompanyRequest());
+		dto.setCompanyDto(companyDto);
 		return dto;
 	}
 
