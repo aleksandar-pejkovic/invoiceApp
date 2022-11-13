@@ -1,6 +1,7 @@
 package com.alpey.invoice.utils.convert;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -30,34 +31,40 @@ public class Convert implements Convertable {
 	@Override
 	public User toEntity(UserDto dto) {
 		User user = new User();
-		mapper.map(dto, user);
-		Company company = toEntity(dto.getCompanyDto());
-		user.setCompany(company);
+		BeanUtils.copyProperties(dto, user);
+		if (dto.getCompanyDto() != null) {
+			Company company = toEntity(dto.getCompanyDto());
+			user.setCompany(company);
+		}
 		return user;
 	}
 
 	@Override
 	public UserDto toDto(User user) {
 		UserDto dto = new UserDto();
-		mapper.map(user, dto);
+		BeanUtils.copyProperties(user, dto);
+		if (user.getCompany() != null) {
 		CompanyDto companyDto = toDto(user.getCompany());
-		dto.setCompanyDto(companyDto);
+			dto.setCompanyDto(companyDto);
+		}
 		return dto;
 	}
 
 	@Override
 	public UserDto toDto(UserRequest request) {
 		UserDto dto = new UserDto();
-		mapper.map(request, dto);
-		CompanyDto companyDto = toDto(request.getCompanyRequest());
-		dto.setCompanyDto(companyDto);
+		BeanUtils.copyProperties(request, dto);
+		if (request.getCompanyRequest() != null) {
+			CompanyDto companyDto = toDto(request.getCompanyRequest());
+			dto.setCompanyDto(companyDto);
+		}
 		return dto;
 	}
 
 	@Override
 	public UserResponse toResponse(UserDto dto) {
 		UserResponse response = new UserResponse();
-		mapper.map(dto, response);
+		BeanUtils.copyProperties(dto, response);
 		return response;
 	}
 

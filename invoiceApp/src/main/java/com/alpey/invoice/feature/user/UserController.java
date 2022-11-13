@@ -1,7 +1,5 @@
 package com.alpey.invoice.feature.user;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,14 +13,16 @@ import com.alpey.invoice.utils.convert.Convert;
 public class UserController {
 
 	@Autowired
-	UserService service;
+	UserService userService;
 	@Autowired
 	Convert convert;
 
 	@PostMapping
-	public UserResponse createUser(@RequestBody UserRequest request) throws SQLIntegrityConstraintViolationException {
+	public UserResponse createUser(@RequestBody UserRequest request) {
+		if (!request.checkUserRequestCredentials())
+			throw new RuntimeException("Insert valid data!");
 		UserDto dto = convert.toDto(request);
-		dto = service.create(dto);
+		dto = userService.createUser(dto);
 		return convert.toResponse(dto);
 	}
 

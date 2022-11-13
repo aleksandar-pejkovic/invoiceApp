@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IUserService {
 
-	UserDto create(UserDto dto);
+	UserDto createUser(UserDto dto);
 
 	UserDto update(UserDto dto, String username);
 
@@ -14,6 +14,6 @@ public interface IUserService {
 
 	UserDto findByEmail(String email);
 
-	List<UserDto> findAll();
+	List<UserDto> findAllUsers();
 
 }

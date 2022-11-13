@@ -8,7 +8,7 @@ import com.alpey.invoice.feature.user.User;
 @Repository
 public interface CompanyRepository extends CrudRepository<Company, Long> {
 
-	Company findByUsername(User user);
+	Company findByUser(User user);
 
 	Company findByName(String name);
 

@@ -18,4 +18,10 @@ public class UserRequest {
 	private String password;
 	private CompanyRequest companyRequest;
 
+	public boolean checkUserRequestCredentials() {
+		if (this.username.isBlank() || this.email.isBlank() || this.password.isBlank())
+			return false;
+		return true;
+	}
+
 }
